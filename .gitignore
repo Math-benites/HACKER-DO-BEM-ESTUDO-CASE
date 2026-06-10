@@ -135,3 +135,5 @@ reports/bandit/*
 !reports/bandit/.gitkeep
 reports/dependency-check/*
 !reports/dependency-check/.gitkeep
+reports/zap/*
+!reports/zap/.gitkeep
