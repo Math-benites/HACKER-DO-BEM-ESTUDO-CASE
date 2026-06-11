@@ -75,6 +75,7 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p reports/dependency-check
+          set +e
           docker run --rm \
             -v "${{ github.workspace }}:/src" \
             -v "${{ github.workspace }}/reports/dependency-check:/report" \
@@ -84,6 +85,9 @@ jobs:
             --out /report \
             --format HTML \
             --failOnCVSS 11
+          dependency_check_exit_code=$?
+          set -e
+          echo "$dependency_check_exit_code" > reports/dependency-check/exit-code.txt
           cat > reports/dependency-check/FIGURA_4_DEPENDENCY_CHECK.md <<'EOF'
           # Figura 4 - Resultado da analise utilizando OWASP Dependency-Check
 
@@ -92,9 +96,13 @@ jobs:
           Arquivo principal:
 
           - `dependency-check-report.html`: relatorio visual para captura da Figura 4.
+          - `exit-code.txt`: codigo de saida do Dependency-Check.
+
+          Observacao: o Dependency-Check pode retornar codigo diferente de zero quando encontra vulnerabilidades acima do limite configurado. Para o estudo de caso, o pipeline preserva o relatorio como evidencia.
           EOF
           echo "### Figura 4 - OWASP Dependency-Check" >> "$GITHUB_STEP_SUMMARY"
           echo "Artifact: figura-4-owasp-dependency-check" >> "$GITHUB_STEP_SUMMARY"
+          echo "Exit code do Dependency-Check: $dependency_check_exit_code" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Dependency-Check report
         if: always()
