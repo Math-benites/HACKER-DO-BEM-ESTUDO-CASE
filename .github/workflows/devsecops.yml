@@ -85,10 +85,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Start Flask app
-        run: docker compose up -d --build web
+      - name: Start Flask app through Nginx
+        run: docker compose up -d --build nginx
 
-      - name: Wait for Flask app
+      - name: Wait for Flask app through Nginx
         run: |
           for i in {1..30}; do
             if curl -fsS http://127.0.0.1:5000/ >/dev/null; then
@@ -96,7 +96,7 @@ jobs:
             fi
             sleep 2
           done
-          docker compose logs web
+          docker compose logs web nginx
           exit 1
 
       - name: Run OWASP ZAP Baseline Scan
