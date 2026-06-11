@@ -1,6 +1,20 @@
 {
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": true,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {},
+        "type": "dashboard"
+      }
+    ]
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
@@ -26,6 +40,7 @@
         "type": "prometheus",
         "uid": "Prometheus"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -49,7 +64,7 @@
             "steps": [
               {
                 "color": "red",
-                "value": null
+                "value": 0
               },
               {
                 "color": "green",
@@ -67,11 +82,13 @@
         "y": 1
       },
       "id": 1,
+      "links": [],
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -83,18 +100,17 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "editorMode": "code",
           "expr": "up{job=\"flask-app\"}",
           "legendFormat": "flask-app",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          }
         }
       ],
       "title": "Status Flask",
@@ -105,18 +121,18 @@
         "type": "prometheus",
         "uid": "Prometheus"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -131,11 +147,13 @@
         "y": 1
       },
       "id": 2,
+      "links": [],
       "options": {
         "colorMode": "value",
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -147,18 +165,17 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "editorMode": "code",
           "expr": "sum(flask_http_request_total)",
           "legendFormat": "requests",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          }
         }
       ],
       "title": "Total de Requests Flask",
@@ -169,18 +186,18 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "yellow",
@@ -203,11 +220,13 @@
         "y": 1
       },
       "id": 3,
+      "links": [],
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -219,17 +238,16 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "sum(count_over_time({app=\"task-manager\"} |= \"event=login_failure\" [5m]))",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Falhas de Login em 5m",
@@ -240,18 +258,18 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "orange",
@@ -270,11 +288,13 @@
         "y": 1
       },
       "id": 4,
+      "links": [],
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -286,17 +306,16 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "sum(count_over_time({job=\"nginx\"} |= \" 429 \" [5m]))",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Rate Limit 429 em 5m",
@@ -320,6 +339,7 @@
         "type": "prometheus",
         "uid": "Prometheus"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -332,6 +352,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -348,6 +369,7 @@
               "type": "linear"
             },
             "showPoints": "never",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -357,13 +379,12 @@
               "mode": "off"
             }
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -378,7 +399,12 @@
         "y": 8
       },
       "id": 5,
+      "links": [],
       "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
         "legend": {
           "calcs": [
             "lastNotNull"
@@ -388,21 +414,22 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "editorMode": "code",
           "expr": "sum(rate(flask_http_request_total[1m])) by (method, status)",
           "legendFormat": "{{method}} {{status}}",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          }
         }
       ],
       "title": "Flask Requests por Segundo",
@@ -410,58 +437,12 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "Prometheus"
+        "type": "loki",
+        "uid": "Loki"
       },
+      "description": "",
       "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "s"
-        },
+        "defaults": {},
         "overrides": []
       },
       "gridPos": {
@@ -470,42 +451,45 @@
         "x": 12,
         "y": 8
       },
-      "id": 6,
+      "id": 12,
+      "links": [],
       "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showControls": false,
+        "showFieldSelector": false,
+        "showLabels": true,
+        "showLevel": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "timestampResolution": "ms",
+        "unwrappedColumns": false,
+        "wrapLogMessage": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(flask_http_request_duration_seconds_bucket[5m])) by (le))",
-          "legendFormat": "p95",
-          "range": true,
-          "refId": "A"
+          "expr": "{app=\"task-manager\"} |~ \"event=login_failure|event=login_success|event=user_registered|event=password_change\"",
+          "queryType": "range",
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
-      "title": "Latencia Flask p95",
-      "type": "timeseries"
+      "title": "Eventos de Autenticacao e Conta",
+      "type": "logs"
     },
     {
       "datasource": {
         "type": "prometheus",
         "uid": "Prometheus"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -518,6 +502,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -534,6 +519,7 @@
               "type": "linear"
             },
             "showPoints": "never",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -543,13 +529,12 @@
               "mode": "off"
             }
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -564,7 +549,12 @@
         "y": 16
       },
       "id": 7,
+      "links": [],
       "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
         "legend": {
           "calcs": [
             "lastNotNull"
@@ -574,21 +564,22 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "editorMode": "code",
           "expr": "sum(rate(flask_http_request_total{path=\"/login\"}[1m])) by (method, status)",
           "legendFormat": "{{method}} {{status}}",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          }
         }
       ],
       "title": "Requests para /login",
@@ -599,6 +590,7 @@
         "type": "prometheus",
         "uid": "Prometheus"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -611,6 +603,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -627,6 +620,7 @@
               "type": "linear"
             },
             "showPoints": "never",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -636,13 +630,113 @@
               "mode": "off"
             }
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 6,
+      "links": [],
+      "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.95, sum(rate(flask_http_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95",
+          "range": true,
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          }
+        }
+      ],
+      "title": "Latencia Flask p95",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "Prometheus"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
               }
             ]
           },
@@ -654,10 +748,15 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 16
+        "y": 24
       },
       "id": 8,
+      "links": [],
       "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
         "legend": {
           "calcs": [
             "lastNotNull"
@@ -667,21 +766,22 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "editorMode": "code",
           "expr": "sum(rate(flask_http_request_total{status=~\"4..|5..\"}[1m])) by (status)",
           "legendFormat": "{{status}}",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          }
         }
       ],
       "title": "Erros HTTP Flask",
@@ -692,6 +792,7 @@
         "type": "prometheus",
         "uid": "Prometheus"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -704,6 +805,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -720,6 +822,7 @@
               "type": "linear"
             },
             "showPoints": "never",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -729,13 +832,12 @@
               "mode": "off"
             }
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -747,10 +849,15 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 16
+        "y": 24
       },
       "id": 9,
+      "links": [],
       "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
         "legend": {
           "calcs": [
             "lastNotNull"
@@ -760,21 +867,22 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "Prometheus"
-          },
           "editorMode": "code",
           "expr": "sum(rate(flask_http_request_exceptions_total[5m]))",
           "legendFormat": "exceptions",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          }
         }
       ],
       "title": "Excecoes Flask",
@@ -786,7 +894,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 32
       },
       "id": 102,
       "panels": [],
@@ -798,6 +906,7 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -810,6 +919,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 15,
             "gradientMode": "opacity",
@@ -826,6 +936,7 @@
               "type": "linear"
             },
             "showPoints": "never",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -835,13 +946,12 @@
               "mode": "off"
             }
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -853,10 +963,15 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 33
       },
       "id": 10,
+      "links": [],
       "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
         "legend": {
           "calcs": [
             "lastNotNull"
@@ -866,20 +981,21 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "sum(rate({app=\"task-manager\"} |= \"event=login_failure\" [1m]))",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Login Failure por Segundo",
@@ -890,6 +1006,7 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -902,6 +1019,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 15,
             "gradientMode": "opacity",
@@ -918,6 +1036,7 @@
               "type": "linear"
             },
             "showPoints": "never",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -927,13 +1046,12 @@
               "mode": "off"
             }
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -945,10 +1063,15 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 33
       },
       "id": 11,
+      "links": [],
       "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
         "legend": {
           "calcs": [
             "lastNotNull"
@@ -958,61 +1081,25 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "sum(rate({app=\"task-manager\"} |= \"event=login_success\" [1m]))",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Login Success por Segundo",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "Loki"
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 33
-      },
-      "id": 12,
-      "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showLabels": true,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "wrapLogMessage": true
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
-          "editorMode": "code",
-          "expr": "{app=\"task-manager\"} |~ \"event=login_failure|event=login_success|event=user_registered|event=password_change\"",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Eventos de Autenticacao e Conta",
-      "type": "logs"
     },
     {
       "collapsed": false,
@@ -1020,7 +1107,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 41
       },
       "id": 103,
       "panels": [],
@@ -1032,6 +1119,7 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1044,6 +1132,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 15,
             "gradientMode": "opacity",
@@ -1060,6 +1149,7 @@
               "type": "linear"
             },
             "showPoints": "never",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1069,13 +1159,12 @@
               "mode": "off"
             }
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -1087,10 +1176,15 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 42
       },
       "id": 13,
+      "links": [],
       "options": {
+        "annotations": {
+          "clustering": -1,
+          "multiLane": false
+        },
         "legend": {
           "calcs": [
             "lastNotNull"
@@ -1100,20 +1194,21 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "sum(rate({job=\"nginx\"} |= \" 429 \" [1m]))",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Rate Limit 429 por Segundo",
@@ -1124,33 +1219,45 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 44
+        "y": 42
       },
       "id": 14,
+      "links": [],
       "options": {
         "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
         "enableLogDetails": true,
         "prettifyLogMessage": false,
         "showCommonLabels": false,
+        "showControls": false,
+        "showFieldSelector": false,
         "showLabels": true,
+        "showLevel": true,
         "showTime": true,
         "sortOrder": "Descending",
+        "timestampResolution": "ms",
+        "unwrappedColumns": false,
         "wrapLogMessage": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "{job=\"nginx\"} |= \" 429 \"",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Logs de Rate Limit",
@@ -1162,7 +1269,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 50
       },
       "id": 104,
       "panels": [],
@@ -1174,33 +1281,45 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 51
       },
       "id": 15,
+      "links": [],
       "options": {
         "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
         "enableLogDetails": true,
         "prettifyLogMessage": false,
         "showCommonLabels": false,
+        "showControls": false,
+        "showFieldSelector": false,
         "showLabels": true,
+        "showLevel": true,
         "showTime": true,
         "sortOrder": "Descending",
+        "timestampResolution": "ms",
+        "unwrappedColumns": false,
         "wrapLogMessage": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "{app=\"task-manager\"}",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Syslog da Aplicacao",
@@ -1211,33 +1330,45 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 53
+        "y": 51
       },
       "id": 16,
+      "links": [],
       "options": {
         "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
         "enableLogDetails": true,
         "prettifyLogMessage": false,
         "showCommonLabels": false,
+        "showControls": false,
+        "showFieldSelector": false,
         "showLabels": true,
+        "showLevel": true,
         "showTime": true,
         "sortOrder": "Descending",
+        "timestampResolution": "ms",
+        "unwrappedColumns": false,
         "wrapLogMessage": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "{job=\"nginx\"}",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Logs Nginx",
@@ -1249,7 +1380,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 61
       },
       "id": 105,
       "panels": [],
@@ -1261,18 +1392,18 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1288,14 +1419,16 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 64
+        "y": 62
       },
       "id": 17,
+      "links": [],
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1307,17 +1440,16 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "sum(count_over_time({job=\"fail2ban\"} |= \"Ban\" [15m]))",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Bans em 15m",
@@ -1328,33 +1460,45 @@
         "type": "loki",
         "uid": "Loki"
       },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 16,
         "x": 8,
-        "y": 64
+        "y": 62
       },
       "id": 18,
+      "links": [],
       "options": {
         "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
         "enableLogDetails": true,
         "prettifyLogMessage": false,
         "showCommonLabels": false,
+        "showControls": false,
+        "showFieldSelector": false,
         "showLabels": true,
+        "showLevel": true,
         "showTime": true,
         "sortOrder": "Descending",
+        "timestampResolution": "ms",
+        "unwrappedColumns": false,
         "wrapLogMessage": true
       },
       "targets": [
         {
-          "datasource": {
-            "type": "loki",
-            "uid": "Loki"
-          },
           "editorMode": "code",
           "expr": "{job=\"fail2ban\"}",
           "queryType": "range",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "Loki"
+          }
         }
       ],
       "title": "Logs Fail2Ban",
@@ -1379,10 +1523,23 @@
     "from": "now-15m",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
   "timezone": "browser",
   "title": "DevSecOps Flask Observability",
   "uid": "devsecops-flask-observability",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }

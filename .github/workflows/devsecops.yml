@@ -42,12 +42,26 @@ jobs:
           mkdir -p reports/bandit
           bandit -r . -x ./.venv,./reports -f json -o reports/bandit/bandit.json || true
           bandit -r . -x ./.venv,./reports -f txt -o reports/bandit/bandit.txt || true
+          bandit -r . -x ./.venv,./reports -f html -o reports/bandit/bandit.html || true
+          cat > reports/bandit/FIGURA_3_BANDIT.md <<'EOF'
+          # Figura 3 - Resultado da analise utilizando Bandit
+
+          Evidencia gerada automaticamente pelo GitHub Actions.
+
+          Arquivos principais:
+
+          - `bandit.html`: relatorio visual para captura da Figura 3.
+          - `bandit.txt`: saida textual da analise.
+          - `bandit.json`: saida estruturada para auditoria.
+          EOF
+          echo "### Figura 3 - Bandit" >> "$GITHUB_STEP_SUMMARY"
+          echo "Artifact: figura-3-bandit" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Bandit reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bandit-reports
+          name: figura-3-bandit
           path: reports/bandit/
 
   dependency-check:
@@ -70,12 +84,23 @@ jobs:
             --out /report \
             --format HTML \
             --failOnCVSS 11
+          cat > reports/dependency-check/FIGURA_4_DEPENDENCY_CHECK.md <<'EOF'
+          # Figura 4 - Resultado da analise utilizando OWASP Dependency-Check
+
+          Evidencia gerada automaticamente pelo GitHub Actions.
+
+          Arquivo principal:
+
+          - `dependency-check-report.html`: relatorio visual para captura da Figura 4.
+          EOF
+          echo "### Figura 4 - OWASP Dependency-Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "Artifact: figura-4-owasp-dependency-check" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Dependency-Check report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dependency-check-report
+          name: figura-4-owasp-dependency-check
           path: reports/dependency-check/
 
   zap:
@@ -111,12 +136,24 @@ jobs:
             -r zap-report.html \
             -w zap-report.md \
             -I
+          cat > reports/zap/FIGURA_5_ZAP.md <<'EOF'
+          # Figura 5 - Resultado da analise utilizando OWASP ZAP
+
+          Evidencia gerada automaticamente pelo GitHub Actions.
+
+          Arquivos principais:
+
+          - `zap-report.html`: relatorio visual para captura da Figura 5.
+          - `zap-report.md`: resumo em Markdown da analise.
+          EOF
+          echo "### Figura 5 - OWASP ZAP" >> "$GITHUB_STEP_SUMMARY"
+          echo "Artifact: figura-5-owasp-zap" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload ZAP reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zap-reports
+          name: figura-5-owasp-zap
           path: reports/zap/
 
       - name: Stop containers
