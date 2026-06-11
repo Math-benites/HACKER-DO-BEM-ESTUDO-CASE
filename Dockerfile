@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "python -c \"from todo_project import app, db; ctx = app.app_context(); ctx.push(); db.create_all(); ctx.pop()\" && flask --app run:app run --host=0.0.0.0 --port=5000"]
+CMD ["sh", "-c", "mkdir -p /app/logs && touch /app/logs/app.log && python -c \"from todo_project import app, db; ctx = app.app_context(); ctx.push(); db.create_all(); ctx.pop()\" && flask --app run:app run --host=0.0.0.0 --port=5000"]

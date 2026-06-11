@@ -305,6 +305,11 @@ Prints recomendados:
 - adaptar a aplicacao base aos requisitos do estudo de caso;
 - garantir autenticacao antes de acoes protegidas;
 - implementar logs via syslog;
+- adicionada stack de logs com Nginx, Promtail, Loki e Fail2Ban;
+- o Nginx atua como reverse proxy na porta `5000` e aplica rate limit em `/login`, `/register` e demais rotas;
+- a aplicacao Flask registra eventos estruturados como `event=login_success`, `event=login_failure`, `event=register_success`, `event=task_created`, `event=task_updated`, `event=task_deleted`, `event=account_updated`, `event=password_changed` e `event=password_change_failure`;
+- o Promtail coleta logs da aplicacao, Nginx e Fail2Ban e envia para o Loki;
+- os paineis do Grafana para rate limit, syslog e Fail2Ban passam a ter fonte de dados real no Loki.
 - registrar sucesso e falha de login;
 - preparar Dockerfile e execucao em container;
 - criar pipeline CI/CD;

@@ -1,6 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 
 from todo_project import app, db, bcrypt
+from todo_project.audit import audit_event
 
 # Import the forms
 from todo_project.forms import (LoginForm, RegistrationForm, UpdateUserInfoForm, 
@@ -45,9 +46,11 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             task_form = TaskForm()
+            audit_event('login_success', username=user.username)
             flash('Login Successfull', 'success')
             return redirect(url_for('all_tasks'))
         else:
+            audit_event('login_failure', username=form.username.data)
             flash('Login Unsuccessful. Please check Username Or Password', 'danger')
     
     return render_template('login.html', title='Login', form=form)
@@ -70,6 +73,7 @@ def register():
         user = User(username=form.username.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        audit_event('register_success', username=form.username.data)
         flash(f'Account Created For {form.username.data}', 'success')
         return redirect(url_for('login'))
 
@@ -91,6 +95,7 @@ def add_task():
         task = Task(content=form.task_name.data, author=current_user)
         db.session.add(task)
         db.session.commit()
+        audit_event('task_created', username=current_user.username)
         flash('Task Created', 'success')
         return redirect(url_for('add_task'))
     return render_template('add_task.html', form=form, title='Add Task')
@@ -105,6 +110,7 @@ def update_task(task_id):
         if form.task_name.data != task.content:
             task.content = form.task_name.data
             db.session.commit()
+            audit_event('task_updated', username=current_user.username)
             flash('Task Updated', 'success')
             return redirect(url_for('all_tasks'))
         else:
@@ -121,6 +127,7 @@ def delete_task(task_id):
     task = Task.query.get_or_404(task_id)
     db.session.delete(task)
     db.session.commit()
+    audit_event('task_deleted', username=current_user.username)
     flash('Task Deleted', 'info')
     return redirect(url_for('all_tasks'))
 
@@ -133,6 +140,7 @@ def account():
         if form.username.data != current_user.username:  
             current_user.username = form.username.data
             db.session.commit()
+            audit_event('account_updated', username=current_user.username)
             flash('Username Updated Successfully', 'success')
             return redirect(url_for('account'))
     elif request.method == 'GET':
@@ -149,10 +157,11 @@ def change_password():
         if bcrypt.check_password_hash(current_user.password, form.old_password.data):
             current_user.password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
             db.session.commit()
+            audit_event('password_changed', username=current_user.username)
             flash('Password Changed Successfully', 'success')
             redirect(url_for('account'))
         else:
+            audit_event('password_change_failure', username=current_user.username)
             flash('Please Enter Correct Password', 'danger') 
 
     return render_template('change_password.html', title='Change Password', form=form)
-

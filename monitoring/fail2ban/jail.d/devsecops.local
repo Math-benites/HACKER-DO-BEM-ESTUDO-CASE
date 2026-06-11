@@ -1,0 +1,15 @@
+[nginx-rate-limit]
+enabled = true
+filter = nginx-rate-limit
+logpath = /var/log/nginx/access.log
+maxretry = 10
+findtime = 300
+bantime = 600
+
+[task-manager-login]
+enabled = true
+filter = task-manager-login
+logpath = /var/log/task-manager/app.log
+maxretry = 5
+findtime = 300
+bantime = 600
