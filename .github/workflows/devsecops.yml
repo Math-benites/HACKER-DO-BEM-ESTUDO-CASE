@@ -43,6 +43,21 @@ jobs:
           bandit -r . -x ./.venv,./reports -f json -o reports/bandit/bandit.json || true
           bandit -r . -x ./.venv,./reports -f txt -o reports/bandit/bandit.txt || true
           bandit -r . -x ./.venv,./reports -f html -o reports/bandit/bandit.html || true
+          if [ ! -s reports/bandit/bandit.html ]; then
+            python - <<'PY'
+          from html import escape
+          from pathlib import Path
+
+          txt = Path("reports/bandit/bandit.txt")
+          content = txt.read_text(errors="replace") if txt.exists() else "Relatorio TXT do Bandit nao foi gerado."
+          Path("reports/bandit/bandit.html").write_text(
+              "<!doctype html><html><head><meta charset='utf-8'><title>Figura 3 - Bandit</title></head>"
+              "<body><h1>Figura 3 - Resultado da analise utilizando Bandit</h1>"
+              "<pre>" + escape(content) + "</pre></body></html>"
+          )
+          PY
+          fi
+          cp reports/bandit/bandit.html reports/bandit/figura-3-bandit.html
           cat > reports/bandit/FIGURA_3_BANDIT.md <<'EOF'
           # Figura 3 - Resultado da analise utilizando Bandit
 
@@ -50,6 +65,7 @@ jobs:
 
           Arquivos principais:
 
+          - `figura-3-bandit.html`: HTML principal para captura da Figura 3.
           - `bandit.html`: relatorio visual para captura da Figura 3.
           - `bandit.txt`: saida textual da analise.
           - `bandit.json`: saida estruturada para auditoria.
@@ -88,6 +104,22 @@ jobs:
           dependency_check_exit_code=$?
           set -e
           echo "$dependency_check_exit_code" > reports/dependency-check/exit-code.txt
+          if [ ! -s reports/dependency-check/dependency-check-report.html ]; then
+            python - <<'PY'
+          from html import escape
+          from pathlib import Path
+
+          exit_code = Path("reports/dependency-check/exit-code.txt").read_text(errors="replace").strip()
+          files = "\n".join(sorted(str(p) for p in Path("reports/dependency-check").glob("*")))
+          content = f"Dependency-Check nao gerou HTML final.\nExit code: {exit_code}\nArquivos gerados:\n{files}"
+          Path("reports/dependency-check/dependency-check-report.html").write_text(
+              "<!doctype html><html><head><meta charset='utf-8'><title>Figura 4 - OWASP Dependency-Check</title></head>"
+              "<body><h1>Figura 4 - Resultado da analise utilizando OWASP Dependency-Check</h1>"
+              "<pre>" + escape(content) + "</pre></body></html>"
+          )
+          PY
+          fi
+          cp reports/dependency-check/dependency-check-report.html reports/dependency-check/figura-4-owasp-dependency-check.html
           cat > reports/dependency-check/FIGURA_4_DEPENDENCY_CHECK.md <<'EOF'
           # Figura 4 - Resultado da analise utilizando OWASP Dependency-Check
 
@@ -95,6 +127,7 @@ jobs:
 
           Arquivo principal:
 
+          - `figura-4-owasp-dependency-check.html`: HTML principal para captura da Figura 4.
           - `dependency-check-report.html`: relatorio visual para captura da Figura 4.
           - `exit-code.txt`: codigo de saida do Dependency-Check.
 
@@ -144,6 +177,21 @@ jobs:
             -r zap-report.html \
             -w zap-report.md \
             -I
+          if [ ! -s reports/zap/zap-report.html ]; then
+            python - <<'PY'
+          from html import escape
+          from pathlib import Path
+
+          md = Path("reports/zap/zap-report.md")
+          content = md.read_text(errors="replace") if md.exists() else "Relatorio Markdown do ZAP nao foi gerado."
+          Path("reports/zap/zap-report.html").write_text(
+              "<!doctype html><html><head><meta charset='utf-8'><title>Figura 5 - OWASP ZAP</title></head>"
+              "<body><h1>Figura 5 - Resultado da analise utilizando OWASP ZAP</h1>"
+              "<pre>" + escape(content) + "</pre></body></html>"
+          )
+          PY
+          fi
+          cp reports/zap/zap-report.html reports/zap/figura-5-owasp-zap.html
           cat > reports/zap/FIGURA_5_ZAP.md <<'EOF'
           # Figura 5 - Resultado da analise utilizando OWASP ZAP
 
@@ -151,6 +199,7 @@ jobs:
 
           Arquivos principais:
 
+          - `figura-5-owasp-zap.html`: HTML principal para captura da Figura 5.
           - `zap-report.html`: relatorio visual para captura da Figura 5.
           - `zap-report.md`: resumo em Markdown da analise.
           EOF
