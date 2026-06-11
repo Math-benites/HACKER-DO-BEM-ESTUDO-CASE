@@ -6,7 +6,7 @@ from flask import request
 
 
 def _build_logger():
-    log_dir = os.environ.get("TASK_MANAGER_LOG_DIR", "/app/logs")
+    log_dir = os.environ.get("TASK_MANAGER_LOG_DIR", "logs")
     os.makedirs(log_dir, exist_ok=True)
 
     logger = logging.getLogger("task_manager_audit")
