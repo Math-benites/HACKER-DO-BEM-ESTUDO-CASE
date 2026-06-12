@@ -126,9 +126,13 @@ jobs:
         run: |
           mkdir -p reports/zap
           rm -rf reports/zap/*
+          docker rm -f zap-run 2>/dev/null || true
+          docker volume rm zap-reports 2>/dev/null || true
+          docker volume create zap-reports
 
           set +e
           docker run --name zap-run --network host \
+            -v zap-reports:/zap/wrk:rw \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://127.0.0.1:5000 \
@@ -139,6 +143,7 @@ jobs:
           docker cp zap-run:/zap/wrk/zap-report.html reports/zap/zap-report.html || true
           docker cp zap-run:/zap/wrk/zap-report.md reports/zap/zap-report.md || true
           docker rm zap-run
+          docker volume rm zap-reports
           set -e
 
           find reports/zap -maxdepth 2 -type f -print
