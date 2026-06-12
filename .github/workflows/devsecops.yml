@@ -60,8 +60,14 @@ jobs:
 
       - name: Run OWASP Dependency-Check
         continue-on-error: true
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
           mkdir -p reports/dependency-check
+          nvd_args=()
+          if [ -n "$NVD_API_KEY" ]; then
+            nvd_args+=(--nvdApiKey "$NVD_API_KEY")
+          fi
           docker run --rm \
             -v "${{ github.workspace }}:/src" \
             -v "${{ github.workspace }}/reports/dependency-check:/report" \
@@ -70,6 +76,7 @@ jobs:
             --scan /src \
             --out /report \
             --format HTML \
+            "${nvd_args[@]}" \
             --failOnCVSS 11 || true
 
       - name: Upload Dependency-Check report
