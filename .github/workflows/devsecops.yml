@@ -125,14 +125,29 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p reports/zap
-          docker run --rm --network host \
-            -v "${{ github.workspace }}/reports/zap:/zap/wrk:rw" \
+          rm -rf reports/zap/*
+
+          set +e
+          docker run --name zap-run --network host \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://127.0.0.1:5000 \
             -r zap-report.html \
             -w zap-report.md \
             -I
+          zap_exit_code=$?
+          docker cp zap-run:/zap/wrk/zap-report.html reports/zap/zap-report.html || true
+          docker cp zap-run:/zap/wrk/zap-report.md reports/zap/zap-report.md || true
+          docker rm zap-run
+          set -e
+
+          find reports/zap -maxdepth 2 -type f -print
+          test -s reports/zap/zap-report.html
+          test -s reports/zap/zap-report.md
+
+          if [ "$zap_exit_code" -ne 0 ]; then
+            echo "OWASP ZAP terminou com codigo $zap_exit_code, mas os relatorios foram preservados."
+          fi
 
       - name: Upload ZAP reports
         if: always()
@@ -140,6 +155,7 @@ jobs:
         with:
           name: zap-reports
           path: reports/zap/
+          if-no-files-found: error
 
       - name: Stop containers
         if: always()
