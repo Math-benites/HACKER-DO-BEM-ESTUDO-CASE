@@ -64,20 +64,33 @@ jobs:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
           mkdir -p reports/dependency-check
+          rm -rf reports/dependency-check/*
           nvd_args=()
           if [ -n "$NVD_API_KEY" ]; then
             nvd_args+=(--nvdApiKey "$NVD_API_KEY")
           fi
-          docker run --rm \
-            -v "${{ github.workspace }}:/src" \
-            -v "${{ github.workspace }}/reports/dependency-check:/report" \
+
+          set +e
+          docker run --name dependency-check-run \
+            -v "${{ github.workspace }}:/src:ro" \
             owasp/dependency-check:latest \
             --project "DevSecOps Flask Study" \
             --scan /src \
             --out /report \
             --format HTML \
             "${nvd_args[@]}" \
-            --failOnCVSS 11 || true
+            --failOnCVSS 11
+          dependency_check_exit_code=$?
+          docker cp dependency-check-run:/report/. reports/dependency-check/ || true
+          docker rm dependency-check-run
+          set -e
+
+          find reports/dependency-check -maxdepth 2 -type f -print
+          test -s reports/dependency-check/dependency-check-report.html
+
+          if [ "$dependency_check_exit_code" -ne 0 ]; then
+            echo "Dependency-Check terminou com codigo $dependency_check_exit_code, mas o relatorio HTML foi preservado."
+          fi
 
       - name: Upload Dependency-Check report
         if: always()
@@ -85,6 +98,7 @@ jobs:
         with:
           name: dependency-check-report
           path: reports/dependency-check/
+          if-no-files-found: error
 
   zap:
     runs-on: ubuntu-latest
